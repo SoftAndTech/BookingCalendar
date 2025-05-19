@@ -1,20 +1,40 @@
-const fs = require('fs');
-const path = require('path');
+import { existsSync, mkdirSync, copyFileSync } from 'fs';
+import { dirname, resolve, join } from 'path';
+import { fileURLToPath } from 'url';
 
-// Destination folders
-const destJs = path.resolve('public/js');
-const destCss = path.resolve('public/css');
+// Get current module path
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Source files (relative to this package)
-const srcJs = path.resolve(__dirname, 'dist/js/stsCalendar.js');
-const srcCss = path.resolve(__dirname, 'dist/css/stsCalendar.min.css');
+// Define paths
+const srcDir = resolve(__dirname, 'dist');
+const targetDir = resolve(__dirname, '..', 'public', 'booking-calendar');
 
-// Create directories if they don't exist
-if (!fs.existsSync(destJs)) fs.mkdirSync(destJs, { recursive: true });
-if (!fs.existsSync(destCss)) fs.mkdirSync(destCss, { recursive: true });
+// Create target directory if it doesn't exist
+if (!existsSync(targetDir)) {
+  mkdirSync(targetDir, { recursive: true });
+}
 
-// Copy files
-fs.copyFileSync(srcJs, path.join(destJs, 'stsCalendar.js'));
-fs.copyFileSync(srcCss, path.join(destCss, 'stsCalendar.min.css'));
+// Copy files function
+async function copyFiles() {
+  try {
+    // Copy CSS
+    copyFileSync(
+      join(srcDir, 'css', 'stsCalendar.min.css'),
+      join(targetDir, 'stsCalendar.min.css')
+    );
+    
+    // Copy JS
+    copyFileSync(
+      join(srcDir, 'js', 'stsCalendar.js'),
+      join(targetDir, 'stsCalendar.js')
+    );
+    
+    console.log('BookingCalendar files copied successfully!');
+  } catch (err) {
+    console.error('Error copying files:', err);
+    process.exit(1);
+  }
+}
 
-console.log('[BookingCalendar] Assets copied to /public folder');
+// Execute
+copyFiles();

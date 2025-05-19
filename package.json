@@ -6,8 +6,7 @@
   "style": "src/css/_stsCalendar.css",
   "type": "module",
   "scripts": {
-    "postinstall": "node postinstall.js",
-    "test": "echo \"No test specified\""
+    "postinstall": "node postinstall.js" 
   },
   
   "repository": {
