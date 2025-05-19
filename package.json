@@ -6,8 +6,10 @@
   "style": "src/css/_stsCalendar.css",
   "type": "module",
   "scripts": {
+    "postinstall": "node postinstall.js",
     "test": "echo \"No test specified\""
   },
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SoftAndTech/BookingCalendar.git"
