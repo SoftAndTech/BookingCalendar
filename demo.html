@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>stsCalendar Demo</title>
+  <link rel="stylesheet" href="css/stsCalendar.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f7f9fc;
+      color: #333;
+    }
+    #myCalendar {
+      max-width: 700px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      padding: 15px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .selected-dates {
+      margin-top: 20px;
+      text-align: center;
+      font-weight: bold;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>stsCalendar Demo</h1>
+
+  <!-- Calendar container -->
+  <div id="myCalendar"></div>
+
+  <!-- Display selected dates -->
+  <div class="selected-dates" id="selectedDatesDisplay">Selected Dates: None</div>
+
+  <!-- Your stsCalendar.js must be included as a module -->
+  <script type="module">
+    // Import the stsCalendar class - assuming it's in the same directory or adjust path accordingly
+    import { stsCalendar } from './stsCalendar.js';
+
+    // Initialize the calendar with some booked dates and options
+    const calendar = new stsCalendar('myCalendar', [
+      '2025-05-20', 
+      '2025-05-22', 
+      '2025-06-01'
+    ], {
+      previousDateSelection: true,
+      multipleSelection: true,
+      RandomSelection: false,
+      WeekStartFrom: 'Mon',
+      monthsToShow: 2
+    });
+
+    const selectedDatesDisplay = document.getElementById('selectedDatesDisplay');
+
+    // Function to update the selected dates text
+    function updateSelectedDates() {
+      const dates = calendar.getSelectedDates();
+      selectedDatesDisplay.textContent = dates.length > 0 
+        ? `Selected Dates: ${dates.join(', ')}`
+        : 'Selected Dates: None';
+    }
+
+    // Initial update
+    updateSelectedDates();
+
+    // Hook into calendar element to listen for a custom event (optional)
+    // You could modify stsCalendar to dispatch an event on date change,
+    // but for demo we'll poll the selected dates on every click.
+    document.getElementById('myCalendar').addEventListener('click', () => {
+      updateSelectedDates();
+    });
+  </script>
+
+</body>
+</html>

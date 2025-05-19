@@ -1,0 +1,28 @@
+{
+  "name": "@softandtech/booking-calendar",
+  "version": "1.0.0",
+  "description": "A lightweight, reusable JavaScript calendar module for booking systems",
+  "main": "src/js/StsCalendar.js",
+  "style": "src/css/_stsCalendar.css",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftAndTech/BookingCalendar.git"
+  },
+  "keywords": [
+    "date-picker",
+    "calendar",
+    "booking",
+    "javascript",
+    "calendar-component"
+  ],
+  "author": "SoftAndTech",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SoftAndTech/BookingCalendar/issues"
+  },
+  "homepage": "https://github.com/SoftAndTech/BookingCalendar#readme"
+}
