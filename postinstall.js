@@ -2,32 +2,48 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Handle module path resolution
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Source files from inside the package
+// Define source paths from inside the package
 const jsSource = path.join(__dirname, 'dist/js/stsCalendar.js');
 const cssSource = path.join(__dirname, 'dist/css/stsCalendar.min.css');
 
-// Destination paths in host project
-const projectRoot = path.resolve(__dirname, '../../../../../'); // goes up from node_modules/@softandtech/booking-calendar
-const destJsDir = path.join(projectRoot, 'public/js/softandtech');
-const destCssDir = path.join(projectRoot, 'public/css/softandtech');
+// Function to find Laravel root by going up directories until "artisan" is found
+function findLaravelRoot(startDir) {
+    let dir = startDir;
+    while (dir !== path.parse(dir).root) {
+        if (fs.existsSync(path.join(dir, 'artisan'))) {
+            return dir;
+        }
+        dir = path.dirname(dir);
+    }
+    throw new Error('Laravel project root not found (no artisan file detected).');
+}
 
-// Ensure destination directories exist
-if (!fs.existsSync(destJsDir)) fs.mkdirSync(destJsDir, { recursive: true });
-if (!fs.existsSync(destCssDir)) fs.mkdirSync(destCssDir, { recursive: true });
+// Resolve Laravel project root
+const projectRoot = findLaravelRoot(__dirname);
 
-// Helper to copy and overwrite only the target file
-const safeCopy = (src, dest) => {
-  try {
-    fs.copyFileSync(src, dest);
-    console.log(`[SoftAndTech] Copied: ${path.basename(dest)}`);
-  } catch (err) {
-    console.error(`[SoftAndTech] Failed to copy ${path.basename(src)}:`, err);
-  }
-};
+// Target folders
+const jsTargetDir = path.join(projectRoot, 'public/js/softandtech');
+const cssTargetDir = path.join(projectRoot, 'public/css/softandtech');
 
-// Copy only the necessary files
-safeCopy(jsSource, path.join(destJsDir, 'stsCalendar.js'));
-safeCopy(cssSource, path.join(destCssDir, 'stsCalendar.min.css'));
+// Ensure destination folders exist
+fs.mkdirSync(jsTargetDir, { recursive: true });
+fs.mkdirSync(cssTargetDir, { recursive: true });
+
+// Function to safely copy a file and overwrite only the target file
+function copyFilePreserveOthers(src, destDir, filename) {
+    const dest = path.join(destDir, filename);
+    try {
+        fs.copyFileSync(src, dest);
+        console.log(`[SoftAndTech] Copied ${filename} to ${destDir}`);
+    } catch (error) {
+        console.error(`[SoftAndTech] Failed to copy ${filename}:`, error);
+    }
+}
+
+// Perform file copies
+copyFilePreserveOthers(jsSource, jsTargetDir, 'stsCalendar.js');
+copyFilePreserveOthers(cssSource, cssTargetDir, 'stsCalendar.min.css');

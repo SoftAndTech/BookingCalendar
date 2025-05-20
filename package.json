@@ -6,13 +6,14 @@
   "style": "src/css/_stsCalendar.css",
   "type": "module",
   "scripts": {
-    "postinstall": "node postinstall.js",
-    "prepublishOnly": "node -e \"import('fs').then(fs => { if (!fs.existsSync('dist/js/stsCalendar.js')) throw new Error('Missing dist files!'); })\""
+  "postinstall": "node postinstall.js",
+  "prepublishOnly": "node -e \"import('fs').then(fs => { if (!fs.existsSync('dist/js/stsCalendar.js')) throw new Error('Missing dist files!'); })\""
   },
   "files": [
     "dist/",
     "postinstall.js"
   ],
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SoftAndTech/BookingCalendar.git"
