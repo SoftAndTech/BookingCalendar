@@ -2,8 +2,8 @@
   "name": "@softandtech/booking-calendar",
   "version": "1.0.0",
   "description": "A lightweight, reusable JavaScript calendar module for booking systems",
-  "main": "src/js/StsCalendar.js",
-  "style": "src/css/_stsCalendar.css",
+  "main": "src/js/stsCalendar.js",
+  "style": "src/css/stsCalendar.css",
   "type": "module",
   "scripts": {
   "postinstall": "node postinstall.js",
