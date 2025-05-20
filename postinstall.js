@@ -1,50 +1,33 @@
-import { existsSync, mkdirSync, copyFileSync } from 'fs';
-import { dirname, join } from 'path';
+import fs from 'fs';
+import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Get current directory in ESM
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Configuration
-const CONFIG = {
-  sourceDir: join(__dirname, 'dist'),
-  targetDir: join(__dirname, '..', 'public', 'booking-calendar'),
-  filesToCopy: [
-    { from: 'css/stsCalendar.min.css', to: 'stsCalendar.min.css' },
-    { from: 'js/stsCalendar.js', to: 'stsCalendar.js' }
-  ]
+// Source files from inside the package
+const jsSource = path.join(__dirname, 'dist/js/stsCalendar.js');
+const cssSource = path.join(__dirname, 'dist/css/stsCalendar.min.css');
+
+// Destination paths in host project
+const projectRoot = path.resolve(__dirname, '../../../../../'); // goes up from node_modules/@softandtech/booking-calendar
+const destJsDir = path.join(projectRoot, 'public/js/softandtech');
+const destCssDir = path.join(projectRoot, 'public/css/softandtech');
+
+// Ensure destination directories exist
+if (!fs.existsSync(destJsDir)) fs.mkdirSync(destJsDir, { recursive: true });
+if (!fs.existsSync(destCssDir)) fs.mkdirSync(destCssDir, { recursive: true });
+
+// Helper to copy and overwrite only the target file
+const safeCopy = (src, dest) => {
+  try {
+    fs.copyFileSync(src, dest);
+    console.log(`[SoftAndTech] Copied: ${path.basename(dest)}`);
+  } catch (err) {
+    console.error(`[SoftAndTech] Failed to copy ${path.basename(src)}:`, err);
+  }
 };
 
-// Skip if in npm cache
-if (__dirname.includes('npm-cache')) {
-  console.log('[BookingCalendar] Skipping postinstall in npm cache');
-  process.exit(0);
-}
-
-try {
-  // Create target directory if needed
-  if (!existsSync(CONFIG.targetDir)) {
-    mkdirSync(CONFIG.targetDir, { recursive: true });
-    console.log(`[BookingCalendar] Created directory: ${CONFIG.targetDir}`);
-  }
-
-  // Copy files with validation
-  let copiedCount = 0;
-  CONFIG.filesToCopy.forEach(({ from, to }) => {
-    const sourcePath = join(CONFIG.sourceDir, from);
-    const targetPath = join(CONFIG.targetDir, to);
-
-    if (existsSync(sourcePath)) {
-      copyFileSync(sourcePath, targetPath);
-      console.log(`[BookingCalendar] Copied: ${from} → ${targetPath}`);
-      copiedCount++;
-    } else {
-      console.warn(`[BookingCalendar] Source not found: ${sourcePath}`);
-    }
-  });
-
-  console.log(`[BookingCalendar] Setup complete. Copied ${copiedCount}/${CONFIG.filesToCopy.length} files`);
-} catch (error) {
-  console.error('[BookingCalendar] Postinstall error:', error.message);
-  process.exit(1);
-}
+// Copy only the necessary files
+safeCopy(jsSource, path.join(destJsDir, 'stsCalendar.js'));
+safeCopy(cssSource, path.join(destCssDir, 'stsCalendar.min.css'));
