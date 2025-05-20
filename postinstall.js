@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// Enable __dirname in ES module scope
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -9,7 +10,7 @@ const __dirname = path.dirname(__filename);
 const jsSource = path.join(__dirname, 'dist/js/stsCalendar.js');
 const cssSource = path.join(__dirname, 'dist/css/stsCalendar.min.css');
 
-// Helper: Detect Laravel root (by locating artisan file)
+// Helper to locate Laravel root by finding "artisan"
 function findLaravelRoot(startDir) {
     let dir = startDir;
     while (dir !== path.parse(dir).root) {
@@ -21,14 +22,16 @@ function findLaravelRoot(startDir) {
     return null;
 }
 
-// Determine current project root
-const cwd = process.cwd();
-const laravelRoot = findLaravelRoot(cwd);
+// Try detecting Laravel root using both process.cwd() and __dirname
+const cwdRoot = findLaravelRoot(process.cwd());
+const dirRoot = findLaravelRoot(__dirname);
+const laravelRoot = cwdRoot || dirRoot;
 
-// Function to safely copy file
+// Function to copy a file safely
 function copyFile(src, destDir, filename) {
     const dest = path.join(destDir, filename);
     try {
+        fs.mkdirSync(destDir, { recursive: true });
         fs.copyFileSync(src, dest);
         console.log(`[SoftAndTech] ✅ Copied ${filename} → ${destDir}`);
     } catch (err) {
@@ -36,19 +39,18 @@ function copyFile(src, destDir, filename) {
     }
 }
 
+// Laravel: Copy assets to public path
 if (laravelRoot) {
-    // Laravel detected: copy files to public
     const jsTargetDir = path.join(laravelRoot, 'public/js/softandtech');
     const cssTargetDir = path.join(laravelRoot, 'public/css/softandtech');
 
-    fs.mkdirSync(jsTargetDir, { recursive: true });
-    fs.mkdirSync(cssTargetDir, { recursive: true });
-
     copyFile(jsSource, jsTargetDir, 'stsCalendar.js');
     copyFile(cssSource, cssTargetDir, 'stsCalendar.min.css');
+
+    console.log('\n[SoftAndTech] 📦 stsCalendar installed successfully in your Laravel project.\n');
 } else {
-    // Not Laravel: show usage instructions for manual use
-    console.log(`\n[SoftAndTech] 📦 Booking Calendar installed.`);
+    // Non-Laravel: Show manual usage hints
+    console.log(`\n[SoftAndTech] 📦 stsCalendar installed.`);
 
     console.log(`\n👉 Detected non-Laravel environment. No auto-copy was done.`);
     console.log(`\n🔧 You can manually import the files like this:\n`);
@@ -56,5 +58,5 @@ if (laravelRoot) {
     console.log(`JS:   node_modules/@softandtech/booking-calendar/dist/js/stsCalendar.js`);
     console.log(`CSS:  node_modules/@softandtech/booking-calendar/dist/css/stsCalendar.min.css\n`);
 
-    console.log(`Include them in your HTML or Webpack/Vite entry point as needed.`);
+    console.log(`Include them in your HTML or in your bundler (Vite, Webpack, etc) as needed.`);
 }
