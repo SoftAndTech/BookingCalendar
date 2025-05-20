@@ -61,9 +61,10 @@
   left: 0;
   right: 0;
   box-shadow: 0 0 5px 0 gray;
-  width: 50%;
+  width: fit-content;
   margin: 0 auto;
-  animation: wiggle 0.2s ease-in-out 4;
+  animation: .2s ease-in-out 4 wiggle;
+  border: 1px solid #b33535;
 }
 .calendar-header {
   padding: 1rem;
@@ -134,19 +135,20 @@
   border: solid 1px #c66868;
 }
 .calendar .booked::before {
-  content: "Booked";
-  font-size: 0.6rem;
-  bottom: 4px;
-  position: absolute;
-  color: #f4f3f3;
-  left: 0;
-  margin: 0 auto;
-  background: #b03519;
-  padding: 1px 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  line-height: 1;
   width: 100%;
   max-width: 50px;
+  content: "Booked";
+  font-size: .6rem;
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #f4f3f3;
+  background: #b03519;
+  padding: 1px 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  line-height: 1;
+  white-space: nowrap;
 }
 .calendar .date_selected {
   background-color: #9cc868 !important;
