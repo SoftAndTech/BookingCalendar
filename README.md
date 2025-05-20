@@ -1,108 +1,166 @@
 # stsCalendar
 
-A lightweight, customizable JavaScript calendar widget with support for:
+A lightweight, customizable JavaScript calendar widget built for modern web applications.
 
-- Multi-month display
-- Single and multiple date selection modes
-- Disabled booked dates
-- Customizable week start day (Sunday or Monday)
-- Previous date selection control
-- Clean, modern UI (requires custom CSS)
+Supports:
 
----
-
-## Demo
-
-Check out the `index.html` demo included in the package for an example of how to use `stsCalendar` in your project.
+- Multi-month grid display
+- Booked/unavailable date disabling
+- Single, range, and random date selection
+- Week start control (Sunday/Monday)
+- Previous date selection toggle
+- Minimal, clean UI with customizable styles
 
 ---
 
-## Features
+## 🧪 Demo
 
-- Show 1 or more months in a grid layout
-- Highlight booked/unavailable dates
-- Allow single or multiple date selection (including ranges)
-- Optionally disable selection of past dates
-- Easily get selected dates as an array of `YYYY-MM-DD` strings
-- Customizable start day of the week (Sunday or Monday)
-- Simple to initialize with booked dates and options
+Run the included `index.html` file in the `dist/demo` folder to preview and test `stsCalendar`.
 
 ---
 
-## Installation
+## ⚙️ Installation
 
-Just include the `stsCalendar.js` module in your project:
+Install via NPM:
+
+```
+npm install github:SoftAndTech/BookingCalendar
+```
+
+ℹ️ During installation, the package detects if your project is a Laravel app and will automatically copy required files to public/js/softandtech and public/css/softandtech.
+
+## 📁 File Locations
+
+| File                           | Description                    |
+| ------------------------------ | ------------------------------ |
+| `dist/js/stsCalendar.js`       | Main calendar JavaScript class |
+| `dist/css/stsCalendar.min.css` | Base styling for the calendar  |
+
+## 🔧 Platform-specific Setup
+
+### ✅ Laravel (Auto-Configured)
+
+    When used in a Laravel project (with artisan file), the package will auto-copy files to:
+ 
+
+    public/js/softandtech/stsCalendar.js
+    public/css/softandtech/stsCalendar.min.css
+
+ 
+### Include in Blade template:
+    <link rel="stylesheet" href="{{ asset('css/softandtech/stsCalendar.min.css') }}">
+    <script type="module" src="{{ asset('js/softandtech/stsCalendar.js') }}"></script>
+
+# ⚛️ React / Vue / Angular (Manual Import)
+  No auto-copy occurs. You'll need to import the files manually from node_modules.
+
+Example (React or Vite):
+
+```
+
+    import { stsCalendar } from 'booking-calendar/dist/js/stsCalendar.js';
+    import 'booking-calendar/dist/css/stsCalendar.min.css';
+
+```
+
+Use a ref or id on your container:
+
+``` 
+
+    <div class="calendarContainer">
+        <div class="calendar" id="Mycalendar"></div>
+    </div>
+    
+    useEffect(() => {
+      const cal = new stsCalendar('Mycalendar', [], {
+        monthsToShow: 2,
+      });
+    }, []);
+```
+
+### 🌐 Static HTML / Plain PHP
+
+```
+
+    <link rel="stylesheet" href="node_modules/@softandtech/booking-calendar/dist/css/stsCalendar.min.css">
+    <script type="module" src="node_modules/@softandtech/booking-calendar/dist/js/stsCalendar.js"></script>
+
+    <div class="calendarContainer">
+        <div class="calendar" id="Mycalendar"></div>
+    </div>
+    
+    <script type="module">
+      import { stsCalendar } from './node_modules/@softandtech/booking-calendar/dist/js/stsCalendar.js';
+    
+      const calendar = new stsCalendar('Mycalendar', ['2025-05-20', '2025-05-22'], {
+        previousDateSelection: true,
+        multipleSelection: true,
+        WeekStartFrom: 'Mon',
+        monthsToShow: 2
+      });
+    
+      console.log(calendar.getSelectedDates());
+    </script>
 
 
-<script type="module" src="stsCalendar.js"></script>
+```
 
 
-Or import it into your JavaScript modules:
 
-import { stsCalendar } from './stsCalendar.js';
+## 🛠️ Options
 
-Include the accompanying CSS to style the calendar:
-
-<link rel="stylesheet" href="css/stsCalendar.css" />
-
-## Usage
-
-    Create a container element in your HTML:
-
-    <div id="myCalendar"></div>
-
-    Initialize the calendar in your JavaScript:
-
-    const calendar = new stsCalendar('myCalendar', [
-    '2025-05-20', 
-    '2025-05-22'
-    ], {
-    previousDateSelection: true,
-    multipleSelection: true,
-    WeekStartFrom: 'Mon',
-    monthsToShow: 2
-    });
-
-        Access selected dates:
-
-    const selectedDates = calendar.getSelectedDates();
-    console.log(selectedDates); // Array of selected date strings
+| Option                  | Type    | Default | Description                                   |
+| ----------------------- | ------- | ------- | --------------------------------------------- |
+| `previousDateSelection` | Boolean | `true`  | Allow selecting dates before today            |
+| `multipleSelection`     | Boolean | `false` | Enable selecting multiple dates in a sequence |
+| `RandomSelection`       | Boolean | `false` | Allow non-contiguous date selection           |
+| `WeekStartFrom`         | String  | `'Sun'` | Start week on `'Sun'` or `'Mon'`              |
+| `monthsToShow`          | Number  | `1`     | Number of months to show side-by-side         |
 
 
-## Options
-Option	                Type	    Default	    Description
+## 🎨 Styling
 
-previousDateSelection	Boolean	    true	    Allow selection of past dates or not
-multipleSelection	    Boolean	    false	    Enable multiple date selection (range mode)
-RandomSelection	        Boolean	    false	    Allow random date selection (non-contiguous)
-WeekStartFrom	        String	    'Sun'	    Set week start day: 'Sun' or 'Mon'
-monthsToShow	        Number	    1	        Number of months to display side-by-side
+All styles are in stsCalendar.min.css. You can:
 
-## Styling
+    Customize colors and spacing
 
-Customize the look by editing the css/stsCalendar.css file. It includes styles for:
+    Add hover/active effects
 
-    Calendar container and grid
+    Theme the calendar to match your UI
 
-    Weekday headers
+Main classes include:
 
-    Date cells (normal, booked, selected, disabled)
+    .sts-calendar – Wrapper
 
-    Hover and active states
+    .sts-date-cell – Day cell
 
-## License
+    .booked, .selected, .disabled – Status markers
+
+## 📝 License
 
 MIT License
 
-## Author
 
-SoftAndTech — wwww.softandtech.co.in
+## 👤 Author
 
-Contribution
+SoftAndTech — www.softandtech.co.in
 
-Feel free to open issues or submit pull requests for improvements or bug fixes.
+## 🤝 Contributions
+
+Pull requests, suggestions, and bug reports are welcome!
+
+## 📩 Contact
+
+Need help or customization?
+
+📧 softandtech.sol@gmail.com
 
 
-## Contact
+---
 
-    If you have questions or need help, open an issue or contact me at softandtech.sol@gmail.com
+Let me know if you also want:
+
+- Markdown version of the demo page for GitHub Preview.
+- A custom NPM build or Webpack-ready export.
+- Laravel Mix/Vite plugin instructions.
+
