@@ -1,11 +1,11 @@
-# stsCalendar
+# stsCalendar v2.0.0
 
-A lightweight, customizable JavaScript calendar widget built for modern web applications.
+A lightweight, customizable JavaScript calendar widget built for modern web applications especiallly for laravel projects.
 
 Supports:
 
 - Multi-month grid display
-- Booked/unavailable date disabling
+- Booked/unavailable date disabling with custom messages
 - Single, range, and random date selection
 - Week start control (Sunday/Monday)
 - Previous date selection toggle
@@ -48,64 +48,60 @@ npm install github:SoftAndTech/BookingCalendar
 
  
 ### Include in Blade template:
-    <link rel="stylesheet" href="{{ asset('css/softandtech/stsCalendar.min.css') }}">
-    <script type="module" src="{{ asset('js/softandtech/stsCalendar.js') }}"></script>
+    <link rel="stylesheet" href="/css/softandtech/stsCalendar.min.css"> 
+    <script src="/js/softandtech/stsCalendar.js"></script>   
 
 # ⚛️ React / Vue / Angular (Manual Import)
   No auto-copy occurs. You'll need to import the files manually from node_modules.
-
-Example (React or Vite):
-
-```
-
-    import { stsCalendar } from 'booking-calendar/dist/js/stsCalendar.js';
-    import 'booking-calendar/dist/css/stsCalendar.min.css';
-
-```
+ 
 
 Use a ref or id on your container:
 
 ``` 
 
-    <div class="calendarContainer">
-        <div class="calendar" id="Mycalendar"></div>
-    </div>
+    `   <div class="calander-container">
+            <div id="calendar" class="calendar"></div>
+            <div class="calendar-legend">
+                <div class="legend-item">
+                    <div class="legend-box legend-booked"></div> Already Booked
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-selected"></div> Selected Date
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-today"></div> Today
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-disabled"></div> Disabled
+                </div>
+            </div>
+        </div>
     
-    useEffect(() => {
-      const cal = new stsCalendar('Mycalendar', [], {
-        monthsToShow: 2,
-      });
-    }, []);
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const bookedDates = ['2025-06-10', '2025-06-15', '2025-06-16'];
+            const calendarOptions = {
+                previousDateSelection: true,
+                multipleSelection: true,
+                monthsToShow: 2,
+                errmessage: 'Selected range contains unavailable dates.',
+            };
+
+            const calendar = new stsCalendar('calendar', bookedDates, calendarOptions);
+            // calendar.init(); // only if your class uses init()
+        });
+    </script>
 ```
 
 ### 🌐 Static HTML / Plain PHP
 
-```
-
-    <link rel="stylesheet" href="node_modules/@softandtech/booking-calendar/dist/css/stsCalendar.min.css">
-    <script type="module" src="node_modules/@softandtech/booking-calendar/dist/js/stsCalendar.js"></script>
-
-    <div class="calendarContainer">
-        <div class="calendar" id="Mycalendar"></div>
-    </div>
-    
-    <script type="module">
-      import { stsCalendar } from './node_modules/@softandtech/booking-calendar/dist/js/stsCalendar.js';
-    
-      const calendar = new stsCalendar('Mycalendar', ['2025-05-20', '2025-05-22'], {
-        previousDateSelection: true,
-        multipleSelection: true,
-        WeekStartFrom: 'Mon',
-        monthsToShow: 2
-      });
-    
-      console.log(calendar.getSelectedDates());
-    </script>
-
+copy and paste both files from booking-calendar/dist/ to your required folders and include it inside your project header
 
 ```
+    <link rel="stylesheet" href="/css/softandtech/stsCalendar.min.css"> 
+    <script src="/js/softandtech/stsCalendar.js"></script>  
 
-
+```
 
 ## 🛠️ Options
 
@@ -115,8 +111,6 @@ Use a ref or id on your container:
 | `multipleSelection`     | Boolean | `false` | Enable selecting multiple dates in a sequence |
 | `RandomSelection`       | Boolean | `false` | Allow non-contiguous date selection           |
 | `WeekStartFrom`         | String  | `'Sun'` | Start week on `'Sun'` or `'Mon'`              |
-| `monthsToShow`          | Number  | `1`     | Number of months to show side-by-side         |
-
 
 ## 🎨 Styling
 
@@ -126,41 +120,26 @@ All styles are in stsCalendar.min.css. You can:
 
     Add hover/active effects
 
-    Theme the calendar to match your UI
-
-Main classes include:
-
-    .sts-calendar – Wrapper
-
-    .sts-date-cell – Day cell
-
-    .booked, .selected, .disabled – Status markers
+    Theme the calendar to match your UI 
 
 ## 📝 License
 
-MIT License
+⚠️ This software is proprietary and intended for internal use only.
+Unauthorized use, distribution, or modification is strictly prohibited.
 
 
 ## 👤 Author
 
 SoftAndTech — www.softandtech.co.in
+Akhil Vijay and Sreejith P
 
 ## 🤝 Contributions
 
-Pull requests, suggestions, and bug reports are welcome!
+Pull requests, suggestions, and bug reports are welcome only with authors permission!
 
 ## 📩 Contact
 
 Need help or customization?
 
 📧 softandtech.sol@gmail.com
-
-
----
-
-Let me know if you also want:
-
-- Markdown version of the demo page for GitHub Preview.
-- A custom NPM build or Webpack-ready export.
-- Laravel Mix/Vite plugin instructions.
 

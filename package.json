@@ -1,7 +1,7 @@
 {
   "name": "@softandtech/booking-calendar",
-  "version": "1.0.0",
-  "description": "A lightweight, reusable JavaScript calendar module for booking systems",
+  "version": "2.0.0",
+  "description": "A lightweight, reusable JavaScript calendar module for booking systems especially for laravel projects",
   "main": "src/js/stsCalendar.js",
   "style": "src/css/stsCalendar.css",
   "type": "module",
@@ -26,7 +26,10 @@
     "calendar-component"
   ],
   "author": "SoftAndTech",
-  "license": "MIT",
+  "license": "proprietary",
+    "extra": {
+      "softandtech-license": "See LICENSE and license.json for terms."
+    },
   "bugs": {
     "url": "https://github.com/SoftAndTech/BookingCalendar/issues"
   },

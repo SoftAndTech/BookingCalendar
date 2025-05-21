@@ -1,85 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>stsCalendar Demo</title>
-  <link rel="stylesheet" href="css/stsCalendar.css" />
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f7f9fc;
-      color: #333;
-    }
-    #myCalendar {
-      max-width: 700px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-      padding: 15px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    .selected-dates {
-      margin-top: 20px;
-      text-align: center;
-      font-weight: bold;
-      color: #007bff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Calendar Demo</title> 
+    <!-- CORRECT PATH (adjust if needed) -->
+<link rel="stylesheet" href="/css/softandtech/stsCalendar.min.css"><!-- Check this file is available in your public folder -->
+<script src="/js/softandtech/stsCalendar.js"></script>          <!-- Check this file is available in your public folder -->
+
 </head>
 <body>
+`   <div class="calander-container">
+        <div id="calendar" class="calendar"></div>
+        <div class="calendar-legend">
+                <div class="legend-item">
+                    <div class="legend-box legend-booked"></div> Already Booked
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-selected"></div> Selected Date
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-today"></div> Today
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box legend-disabled"></div> Disabled
+                </div>
+            </div>
+    </div>
 
-  <h1>stsCalendar Demo</h1>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const bookedDates = ['2025-06-10', '2025-06-15', '2025-06-16'];
+            const calendarOptions = {
+                previousDateSelection: true,
+                multipleSelection: true,
+                monthsToShow: 2,
+                errmessage: 'Selected range contains unavailable dates.',
+            };
 
-  <!-- Calendar container -->
-  <div id="myCalendar"></div>
-
-  <!-- Display selected dates -->
-  <div class="selected-dates" id="selectedDatesDisplay">Selected Dates: None</div>
-
-  <!-- Your stsCalendar.js must be included as a module -->
-  <script type="module">
-    // Import the stsCalendar class - assuming it's in the same directory or adjust path accordingly
-    import { stsCalendar } from './stsCalendar.js';
-
-    // Initialize the calendar with some booked dates and options
-    const calendar = new stsCalendar('myCalendar', [
-      '2025-05-20', 
-      '2025-05-22', 
-      '2025-06-01'
-    ], {
-      previousDateSelection: true,
-      multipleSelection: true,
-      RandomSelection: false,
-      WeekStartFrom: 'Mon',
-      monthsToShow: 2
-    });
-
-    const selectedDatesDisplay = document.getElementById('selectedDatesDisplay');
-
-    // Function to update the selected dates text
-    function updateSelectedDates() {
-      const dates = calendar.getSelectedDates();
-      selectedDatesDisplay.textContent = dates.length > 0 
-        ? `Selected Dates: ${dates.join(', ')}`
-        : 'Selected Dates: None';
-    }
-
-    // Initial update
-    updateSelectedDates();
-
-    // Hook into calendar element to listen for a custom event (optional)
-    // You could modify stsCalendar to dispatch an event on date change,
-    // but for demo we'll poll the selected dates on every click.
-    document.getElementById('myCalendar').addEventListener('click', () => {
-      updateSelectedDates();
-    });
-  </script>
-
+            const calendar = new stsCalendar('calendar', bookedDates, calendarOptions);
+            // calendar.init(); // only if your class uses init()
+        });
+    </script>
 </body>
 </html>

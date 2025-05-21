@@ -1,0 +1,19 @@
+{
+  "license": "SoftAndTech Proprietary License",
+  "copyright": "Copyright (c) 2025 SoftAndTech",
+  "permissions": {
+    "use": "internal use only by authorized personnel or within SoftAndTech projects",
+    "distribution": "prohibited without explicit written permission",
+    "modification": "prohibited without explicit written permission",
+    "commercial-use": "restricted to SoftAndTech"
+  },
+  "limitations": {
+    "liability": "no liability for any damages",
+    "warranty": "provided as-is without warranty"
+  },
+  "conditions": {
+    "attribution": "must retain copyright",
+    "confidentiality": "must not disclose or publish the software or its contents",
+    "contact": "softandtech.sol@gmail.com for permission or inquiries"
+  }
+}
