@@ -87,8 +87,12 @@ Use a ref or id on your container:
                 errmessage: 'Selected range contains unavailable dates.',
             };
 
-            const calendar = new stsCalendar('calendar', bookedDates, calendarOptions);
-            // calendar.init(); // only if your class uses init()
+            const calendar = new stsCalendar('calendar', bookedDates, calendarOptions); 
+            
+            <!-- Check the console to view the value returns -->
+            document.getElementById('calendar').addEventListener('click', () => {
+                console.log(calendar.getSelectedDates()); 
+            });
         });
     </script>
 ```
