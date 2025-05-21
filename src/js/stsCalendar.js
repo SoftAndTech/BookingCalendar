@@ -306,8 +306,7 @@ class stsCalendar {
 	}
 
 	getSelectedDates() {
-		const selectedDatesArray = Array.from(this.selectedDates).sort();
-		// console.log("Selected dates in getSelectedDates:", selectedDatesArray);
+		const selectedDatesArray = Array.from(this.selectedDates).sort(); 
 		return selectedDatesArray;
 	}
 }
