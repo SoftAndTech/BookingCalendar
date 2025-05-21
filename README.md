@@ -46,14 +46,12 @@ npm install github:SoftAndTech/BookingCalendar
     public/js/softandtech/stsCalendar.js
     public/css/softandtech/stsCalendar.min.css
 
+###   No auto-copy occurs. You'll need to import the files manually from node_modules.
  
 ### Include in Blade template:
     <link rel="stylesheet" href="/css/softandtech/stsCalendar.min.css"> 
     <script src="/js/softandtech/stsCalendar.js"></script>   
-
-# ⚛️ React / Vue / Angular (Manual Import)
-  No auto-copy occurs. You'll need to import the files manually from node_modules.
- 
+  
 
 Use a ref or id on your container:
 
